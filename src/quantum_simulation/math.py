@@ -62,12 +62,14 @@ def main():
     print("---")
     print(measure(Constants.BELL))
 
-    print(apply(Constants.CNOT, np.array([
-        [1/math.sqrt(2)],
-        [0],
-        [0],
-        [1/math.sqrt(2)]
-    ])))
+    # generate Bell State
+    x = apply(Constants.HADAMARD, Constants.ZERO)
+    print(x)
+    xy = tensor_product(x, Constants.ZERO)
+    print(xy)
+    print(apply(Constants.CNOT, xy))
+
+
 
 if __name__ == "__main__":
     main()

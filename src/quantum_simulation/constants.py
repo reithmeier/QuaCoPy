@@ -6,6 +6,10 @@ import numpy as np
 
 
 class Constants:
+    ZERO = np.array([1, 0])
+
+    ONE = np.array([0, 1])
+
     PAULI_I = np.array([[1, 0],
                         [0, 1]])
 

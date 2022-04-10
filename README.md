@@ -1,5 +1,5 @@
-# PythonArchetype
+# QuaCuPy - Quantum Computing Simulator for Python
 
 ## Description
 
-Archetype python project that contains tox, black, pylint, pytest and coverage
+Simulates Quantum Computing in Python

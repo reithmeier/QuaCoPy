@@ -3,8 +3,8 @@ import math
 import numpy as np
 from numpy import ndarray
 
-from quantum_simulation import QBit
-from quantum_simulation.constants import Constants
+from quantum_simulation import Transformations
+from quantum_simulation import States
 
 
 def apply(x, y):
@@ -22,9 +22,9 @@ def tensor_product(x: ndarray, y: ndarray):
 
 
 def probability_zero(state):
-    a = tensor_product(Constants.ZERO, Constants.ZERO).reshape((4, 1))
+    a = tensor_product(States.ZERO, States.ZERO).reshape((4, 1))
     print(a)
-    b = tensor_product(Constants.ZERO, Constants.ONE)
+    b = tensor_product(States.ZERO, States.ONE)
     print(b)
     return apply(state, a)
 
@@ -84,49 +84,49 @@ def prob(state: ndarray):
     print(state)
 
     return (1 / math.sqrt(state[0] * state[0] + state[1] * state[1]) *
-            (state[0] * Constants.ZZ + state[1] * Constants.ZO))
+            (state[0] * States.ZZ + state[1] * States.ZO))
 
 
 def main():
     """
     main
     """
-    print(apply(Constants.HADAMARD, Constants.HADAMARD))
+    print(apply(Transformations.HADAMARD, Transformations.HADAMARD))
 
     x = np.array([1, 0])
     y = np.array([1, 0])
 
     print(tensor_product(x, y))
-    print(tensor_product(Constants.HADAMARD, Constants.HADAMARD))
+    print(tensor_product(Transformations.HADAMARD, Transformations.HADAMARD))
 
     bit = np.array([1, 0])
     print(bit)
-    print(apply(Constants.PAULI_I, bit))
-    print(apply(Constants.PAULI_X, bit))
-    print(apply(Constants.PAULI_Y, bit))
-    print(apply(Constants.PAULI_Z, bit))
-    print(apply(Constants.HADAMARD, bit))
+    print(apply(Transformations.PAULI_I, bit))
+    print(apply(Transformations.PAULI_X, bit))
+    print(apply(Transformations.PAULI_Y, bit))
+    print(apply(Transformations.PAULI_Z, bit))
+    print(apply(Transformations.HADAMARD, bit))
 
     # generate Bell State
-    x = apply(Constants.HADAMARD, Constants.ZERO)
+    x = apply(Transformations.HADAMARD, States.ZERO)
     print(x)
-    xy = tensor_product(x, Constants.ZERO)
+    xy = tensor_product(x, States.ZERO)
     print(xy)
-    print(apply(Constants.CNOT, xy))
+    print(apply(Transformations.CNOT, xy))
 
     print("---")
-    print(Constants.BELL)
-    print(probability(Constants.ZERO, Constants.ZERO))
-    print(probability(Constants.ONE, Constants.ZERO))
-    print(probability(Constants.ONE, Constants.ONE))
+    print(States.BELL)
+    print(probability(States.ZERO, States.ZERO))
+    print(probability(States.ONE, States.ZERO))
+    print(probability(States.ONE, States.ONE))
 
-    print(probability(Constants.BELL, Constants.ZZ))
-    print(probability(Constants.BELL, Constants.ZO))
-    print(probability(Constants.BELL, Constants.OZ))
-    print(probability(Constants.BELL, Constants.OO))
+    print(probability(States.BELL, States.ZZ))
+    print(probability(States.BELL, States.ZO))
+    print(probability(States.BELL, States.OZ))
+    print(probability(States.BELL, States.OO))
 
     print(".---")
-    print(prob(Constants.BELL))
+    print(prob(States.BELL))
 
     print(calc_angle_to_zero(np.array([2, 2])) / (2 * math.pi) * 360)
     print(length(np.array([1, 1, 1])))
@@ -134,12 +134,15 @@ def main():
     print(calc_angle_to_zero(np.array([1, 0])) / (2 * math.pi) * 360)
     print(bit_prob(np.array([1, 0])))
     print(bit_prob(np.array([1, 1])))
-    print(bit_prob(Constants.PLUS))
-    print(bit_prob(Constants.MINUS))
-    print(bit_prob(Constants.MINUS))
+    print(bit_prob(States.PLUS))
+    print(bit_prob(States.MINUS))
+    print(bit_prob(States.MINUS))
 
-    print(prob_first_digit_zero(tensor_product(Constants.PLUS, Constants.PLUS)))
-    print(prob_first_digit_zero(Constants.BELL))
+    print(prob_first_digit_zero(tensor_product(States.PLUS, States.PLUS)))
+    print(prob_first_digit_zero(States.BELL))
+
+    print(tensor_product(States.PLUS, States.PLUS))
+    print(tensor_product(States.MINUS, States.MINUS))
 
 
 if __name__ == "__main__":

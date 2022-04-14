@@ -4,9 +4,9 @@ from setuptools import setup, find_packages
 
 
 setup(
-    name="PythonArchetype",
+    name="QuaCoPy",
     version="0.0.1",
-    description="Empty Python Archetype Project with tox, pylint, black, pytest, coverage",
+    description="Quantum Computing Simulation for Python",
     author="Lukas Reithmeier",
     url="https://github.com/reithmeier/PythonArchetype",
     packages=find_packages(where="src"),

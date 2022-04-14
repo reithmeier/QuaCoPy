@@ -6,8 +6,7 @@ import math
 import numpy as np
 from numpy import ndarray
 
-from quantum_simulation import Transformations
-from quantum_simulation import States
+from quantum_simulation.constants import states, transformations
 
 
 def apply(x, y):
@@ -37,7 +36,7 @@ def tensor_product(x: ndarray, y: ndarray):
     return np.kron(x, y)
 
 
-def length(state:ndarray):
+def length(state: ndarray):
     """
     calculates the length of a quantum state using the pythagorean theorem in an euclidean space
     d1^2+d2^2+d3^3+... = l^2
@@ -48,7 +47,7 @@ def length(state:ndarray):
     return math.sqrt(np.sum(squares))
 
 
-def calc_angle_to_zero(qbit:ndarray):
+def calc_angle_to_zero(qbit: ndarray):
     """
     calculates the angle between the qbit vector and the zero state |0> = (1,0)
     :param qbit: qbit of size 2
@@ -88,16 +87,16 @@ def prob(state: ndarray):
     print(state)
 
     return (
-            1
-            / math.sqrt(state[0] * state[0] + state[1] * state[1])
-            * (state[0] * States.ZZ + state[1] * States.ZO)
+        1
+        / math.sqrt(state[0] * state[0] + state[1] * state[1])
+        * (state[0] * states.ZZ + state[1] * states.ZO)
     )
 
 
-def probability_zero(state:ndarray):
-    a = tensor_product(States.ZERO, States.ZERO).reshape((4, 1))
+def probability_zero(state: ndarray):
+    a = tensor_product(states.ZERO, states.ZERO).reshape((4, 1))
     print(a)
-    b = tensor_product(States.ZERO, States.ONE)
+    b = tensor_product(states.ZERO, states.ONE)
     print(b)
     return apply(state, a)
 
@@ -110,28 +109,21 @@ def main():
     """
     main
     """
-    print(apply(Transformations.HADAMARD, Transformations.HADAMARD))
+    print(apply(transformations.HADAMARD, transformations.HADAMARD))
 
     x = np.array([1, 0])
     y = np.array([1, 0])
 
     print(tensor_product(x, y))
-    print(tensor_product(Transformations.HADAMARD, Transformations.HADAMARD))
+    print(tensor_product(transformations.HADAMARD, transformations.HADAMARD))
 
     bit = np.array([1, 0])
     print(bit)
-    print(apply(Transformations.PAULI_I, bit))
-    print(apply(Transformations.PAULI_X, bit))
-    print(apply(Transformations.PAULI_Y, bit))
-    print(apply(Transformations.PAULI_Z, bit))
-    print(apply(Transformations.HADAMARD, bit))
-
-    # generate Bell State
-    x = apply(Transformations.HADAMARD, States.ZERO)
-    print(x)
-    xy = tensor_product(x, States.ZERO)
-    print(xy)
-    print(apply(Transformations.CNOT, xy))
+    print(apply(transformations.PAULI_I, bit))
+    print(apply(transformations.PAULI_X, bit))
+    print(apply(transformations.PAULI_Y, bit))
+    print(apply(transformations.PAULI_Z, bit))
+    print(apply(transformations.HADAMARD, bit))
 
     print(calc_angle_to_zero(np.array([2, 2])) / (2 * math.pi) * 360)
     print(length(np.array([1, 1, 1])))
@@ -139,15 +131,15 @@ def main():
     print(calc_angle_to_zero(np.array([1, 0])) / (2 * math.pi) * 360)
     print(bit_prob(np.array([1, 0])))
     print(bit_prob(np.array([1, 1])))
-    print(bit_prob(States.PLUS))
-    print(bit_prob(States.MINUS))
-    print(bit_prob(States.MINUS))
+    print(bit_prob(states.PLUS))
+    print(bit_prob(states.MINUS))
+    print(bit_prob(states.MINUS))
 
-    print(prob_first_digit_zero(tensor_product(States.PLUS, States.PLUS)))
-    print(prob_first_digit_zero(States.BELL))
+    print(prob_first_digit_zero(tensor_product(states.PLUS, states.PLUS)))
+    print(prob_first_digit_zero(states.BELL))
 
-    print(tensor_product(States.PLUS, States.PLUS))
-    print(tensor_product(States.MINUS, States.MINUS))
+    print(tensor_product(states.PLUS, states.PLUS))
+    print(tensor_product(states.MINUS, states.MINUS))
 
     print(tensor_product([1, 1], [1, -1]))
     print(tensor_product([1, -1], [1, 1]))

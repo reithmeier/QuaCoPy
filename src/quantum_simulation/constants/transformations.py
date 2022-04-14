@@ -1,58 +1,43 @@
+"""
+Transformation Matrices
+"""
 import math
 
 import numpy as np
 
+I = PAULI_I = np.array([[1, 0], [0, 1]])
+"""
+identity
+"""
 
-class Transformations:
-    """
-    Transformations
+X = PAULI_X = np.array([[0, 1], [1, 0]])
+"""
+exchange
+"""
 
-    contains transformation matrices
-    """
+Y = PAULI_Y = np.array([[0, 1], [-1, 0]])
+"""
+identity with negative
+"""
 
-    PAULI_I = np.array([[1, 0], [0, 1]])
-    """
-    identity
-    """
+Z = PAULI_Z = np.array([[1, 0], [0, -1]])
+"""
+exchange with negative
+"""
 
-    PAULI_X = np.array([[0, 1], [1, 0]])
-    """
-    exchange
-    """
+H = HADAMARD = (1 / math.sqrt(2)) * np.array([[1, 1], [1, -1]])
+"""
+Hadamard Matrix
+"""
 
-    PAULI_Y = np.array([[0, 1], [-1, 0]])
-    """
-    identity with negative
-    """
+HH = HADAMARD_2BIT = (
+    1 / 2 * np.array([[1, 1, 1, 1], [1, -1, 1, -1], [1, 1, -1, -1], [1, -1, -1, 1]])
+)
+"""
+2 bit Hadamard Matrix H|00> = H|0> x H|0>
+"""
 
-    PAULI_Z = np.array([[1, 0], [0, -1]])
-    """
-    exchange with negative
-    """
-
-    HADAMARD = (1 / math.sqrt(2)) * np.array([[1, 1], [1, -1]])
-    """
-    Hadamard Matrix
-    """
-
-    H = HADAMARD
-    """
-    Hadamard Matrix
-    """
-
-    HADAMARD_2BIT = (
-        1 / 2 * np.array([[1, 1, 1, 1], [1, -1, 1, -1], [1, 1, -1, -1], [1, -1, -1, 1]])
-    )
-    """
-    2 bit Hadamard Matrix H|00> = H|0> x H|0>
-    """
-
-    HH = HADAMARD_2BIT
-    """
-    2 bit Hadamard Matrix H|00> = H|0> x H|0>
-    """
-
-    CNOT = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]])
-    """
-    Constant Not
-    """
+CNOT = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]])
+"""
+Constant Not
+"""

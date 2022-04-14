@@ -1,66 +1,62 @@
+"""
+Quantum States
+"""
 import math
 
 import numpy as np
 
 
-class States:
-    """
-    States
+Z = ZERO = np.array([1, 0]).reshape((2, 1))
+"""
+|0> zero state
+"""
 
-    contains bit states
-    """
+O = ONE = np.array([0, 1]).reshape((2, 1))
+"""
+|1> one state
+"""
 
-    ZERO = np.array([1, 0]).reshape((2, 1))
-    """
-    |0> zero state
-    """
+ZZ = ZERO_ZERO = np.array([1, 0, 0, 0]).reshape((4, 1))
+"""
+|00> state
+"""
 
-    ONE = np.array([0, 1]).reshape((2, 1))
-    """
-    |1> one state
-    """
+ZO = ZERO_ONE = np.array([0, 1, 0, 0]).reshape((4, 1))
+"""
+|01> state
+"""
 
-    ZZ = np.array([1, 0, 0, 0]).reshape((4, 1))
-    """
-    |00> state
-    """
+OZ = ONE_ZERO = np.array([0, 0, 1, 0]).reshape((4, 1))
+"""
+|10> state
+"""
 
-    ZO = np.array([0, 1, 0, 0]).reshape((4, 1))
-    """
-    |01> state
-    """
+OO = ONE_ONE = np.array([0, 0, 0, 1]).reshape((4, 1))
+"""
+|11> State
+"""
 
-    OZ = np.array([0, 0, 1, 0]).reshape((4, 1))
-    """
-    |10> state
-    """
+P = PLUS = np.array([1 / math.sqrt(2), 1 / math.sqrt(2)]).reshape((2, 1))
+"""
+|+> plus state
+"""
 
-    OO = np.array([0, 0, 0, 1]).reshape((4, 1))
-    """
-    |11> State
-    """
+M = MINUS = np.array([1 / math.sqrt(2), -1 / math.sqrt(2)]).reshape((2, 1))
+"""
+|-> minus state
+"""
 
-    PLUS = np.array([1 / math.sqrt(2), 1 / math.sqrt(2)]).reshape((2, 1))
-    """
-    |+> plus state
-    """
+PP = PLUS_PLUS = 1 / 2 * np.array([1, 1, 1, 1]).reshape((4, 1))
+"""
+|++> state
+"""
 
-    MINUS = np.array([1 / math.sqrt(2), -1 / math.sqrt(2)]).reshape((2, 1))
-    """
-    |-> minus state
-    """
+MM = MINUS_MINUS = 1 / 2 * np.array([1, -1, -1, 1]).reshape((4, 1))
+"""
+|--> state
+"""
 
-    PP = 1 / 2 * np.array([1, 1, 1, 1]).reshape((4, 1))
-    """
-    |++> state
-    """
-
-    MM = 1 / 2 * np.array([1, -1, -1, 1]).reshape((4, 1))
-    """
-    |--> state
-    """
-
-    BELL = np.array([1 / math.sqrt(2), 0, 0, 1 / math.sqrt(2)]).reshape((4, 1))
-    """
-    Bell state
-    """
+B = BELL = np.array([1 / math.sqrt(2), 0, 0, 1 / math.sqrt(2)]).reshape((4, 1))
+"""
+Bell state
+"""

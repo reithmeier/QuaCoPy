@@ -1,4 +1,4 @@
-# QuaCuPy - Quantum Computing Simulator for Python
+# QuaCoPy - Quantum Computing Simulator for Python
 
 ## Description
 

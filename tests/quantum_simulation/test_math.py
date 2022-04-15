@@ -1,56 +1,26 @@
+import math
+
 import numpy as np
 import pytest
-from quantum_simulation import math as qmath, apply, transformations
+from quantum_simulation import math as qmath, transformations
 from quantum_simulation.constants import states
 
 
-def test_apply_h_z():
+@pytest.mark.parametrize("a,b,expected", [
+    (transformations.HADAMARD, states.ZERO, states.PLUS),
+    (transformations.HADAMARD, states.ONE, states.MINUS),
+    (transformations.HH, states.ZZ, states.PP),
+    (transformations.HH, states.OO, states.MM),
+    (transformations.PAULI_I, states.ZERO, states.ZERO),
+    (transformations.PAULI_X, states.ZERO, states.ONE),
+    (transformations.PAULI_Y, states.PLUS, states.MINUS),
+    (transformations.PAULI_Z, states.MINUS, states.PLUS),
+])
+def test_apply(a, b, expected):
     # given
-    h = transformations.HADAMARD
-    z = states.ZERO
-    expected = states.PLUS
 
     # when
-    result = apply(h, z)
-
-    # then
-    assert np.array_equal(result, expected)
-
-
-def test_apply_h_o():
-    # given
-    h = transformations.HADAMARD
-    o = states.ONE
-    expected = states.MINUS
-
-    # when
-    result = apply(h, o)
-
-    # then
-    assert np.array_equal(result, expected)
-
-
-def test_apply_hh_zz():
-    # given
-    h = transformations.HH
-    z = states.ZZ
-    expected = states.PP
-
-    # when
-    result = apply(h, z)
-
-    # then
-    assert np.array_equal(result, expected)
-
-
-def test_apply_hh_oo():
-    # given
-    h = transformations.HH
-    o = states.OO
-    expected = states.MM
-
-    # when
-    result = apply(h, o)
+    result = qmath.apply(a, b)
 
     # then
     assert np.array_equal(result, expected)
@@ -64,7 +34,7 @@ def test_apply_switched_throws():
     # when
     # then
     with pytest.raises(ValueError):
-        apply(z, h)
+        qmath.apply(z, h)
 
 
 def test_apply_empty_throws():
@@ -75,7 +45,7 @@ def test_apply_empty_throws():
     # when
     # then
     with pytest.raises(ValueError):
-        apply(h, o)
+        qmath.apply(h, o)
 
 
 def test_apply_dim_missmatch_throws():
@@ -86,7 +56,96 @@ def test_apply_dim_missmatch_throws():
     # when
     # then
     with pytest.raises(ValueError):
-        apply(h, o)
+        qmath.apply(h, o)
+
+
+@pytest.mark.parametrize("a,b,expected", [
+    (np.array([1, 1]), np.array([1, -1]), np.array([1, -1, 1, -1])),
+    (np.array([-1]), np.array([1, -1]), np.array([-1, 1])),
+    (np.array([2]), np.array([4]), np.array([8])),
+    (np.array([[1, 1], [-1, -1]]), np.array([1, -1]), np.array([[1, -1, 1, -1], [-1, 1, -1, 1]])),
+])
+def test_tensor_product(a, b, expected):
+    # given
+
+    # when
+    result = qmath.tensor_product(a, b)
+
+    # then
+    assert np.array_equal(result, expected)
+
+
+def test_tensor_product_wrong_type():
+    # given
+    a = 7
+    b = np.array([8])
+
+    # when
+    result = qmath.tensor_product(a, b)
+
+    # then
+    assert np.array_equal(result, [56])
+
+
+def test_tensor_product_empty():
+    # given
+    a = np.array([])
+    b = np.array([])
+
+    # when
+    # then
+    with pytest.raises(ValueError):
+        qmath.tensor_product(a, b)
+
+
+@pytest.mark.parametrize("state,expected", [
+    (np.array([]), math.sqrt(0)),
+    (np.array([1]), math.sqrt(1)),
+    (np.array([1, 1]), math.sqrt(2)),
+    (np.array([1, 1, 1]), math.sqrt(3)),
+    (np.array([1, 1, 1, 1]), math.sqrt(4)),
+    (np.array([1, -1, -1, 1]), math.sqrt(4)),
+    (np.array([[1], [1], [1], [1]]), math.sqrt(4)),
+    (np.array([[1, 1], [1, 1]]), math.sqrt(4)),
+])
+def test_length(state, expected):
+    # given
+    # when
+    result = qmath.length(state)
+    # then
+    assert result == expected
+
+
+@pytest.mark.parametrize("qbit,expected", [
+    (states.PLUS, 45 / 180 * math.pi),
+    (states.MINUS, 45 / 180 * math.pi),
+    (states.ONE, 90 / 180 * math.pi),
+    (states.ZERO, 0 / 180 * math.pi)
+])
+def test_calc_angle_to_zero(qbit, expected):
+    # given
+    # when
+    result = qmath.calc_angle_to_zero(qbit)
+    # then
+    assert math.isclose(result, expected)
+
+
+@pytest.mark.parametrize("qbit,expected", [
+    (np.array([1, 0, 0]), 0 / 180 * math.pi),
+    (np.array([0, 1, 0]), 90 / 180 * math.pi),
+    (np.array([0, 0, 1]), 90 / 180 * math.pi),
+    (np.array([0]), 90 / 180 * math.pi),
+    (np.array([0]), 90 / 180 * math.pi),
+    (np.array([0]), 90 / 180 * math.pi),
+    (np.array([0]), 90 / 180 * math.pi)
+])
+def test_calc_angle_to_zero_raises(qbit, expected):
+    # given
+    # when
+    # then
+    with pytest.raises(ValueError):
+        qmath.calc_angle_to_zero(qbit)
+
 
 
 def test_generate_bell_state():
@@ -97,7 +156,7 @@ def test_generate_bell_state():
 
     # when
     # generate bell state
-    x = apply(h, z)
+    x = qmath.apply(h, z)
     xy = qmath.tensor_product(x, z)
     bell = qmath.apply(cnot, xy)
 

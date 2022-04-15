@@ -36,9 +36,18 @@ def tensor_product(x: ndarray, y: ndarray):
     return np.kron(x, y)
 
 
+def is_valid(qbit: ndarray):
+    """
+    checks if the qbit has a valid state
+    :param qbit: qbit
+    :return: true, if the state of the qbit is valid
+    """
+    return qbit.size == 2 and math.isclose(length(qbit), 1.)
+
+
 def length(state: ndarray):
     """
-    calculates the length of a quantum state using the pythagorean theorem in an euclidean space
+    calculates the length / magnitude of a quantum state using the pythagorean theorem in euclidean space
     d1^2+d2^2+d3^3+... = l^2
     :param state: n digit quantum state
     :return: length of state
@@ -50,11 +59,17 @@ def length(state: ndarray):
 def calc_angle_to_zero(qbit: ndarray):
     """
     calculates the angle between the qbit vector and the zero state |0> = (1,0)
-    :param qbit: qbit of size 2
+    :param qbit: valid qbit of size 2
     :return: angle between the qbit vector and the zero state
+    :raises ValueError if the qbit is not valid
     """
-    hypothenuse = length(qbit)
-    return math.acos(qbit[0] / hypothenuse)
+    if not is_valid(qbit):
+        raise ValueError(f"The QBit {qbit} is not valid.")
+    # angle = acos(qbit[0] / hypothenuse)
+    # since the hypothenuse is the length of the qbit
+    # and the length of a valid qbit is always 1
+    # this expression can be minimized to
+    return math.acos(qbit[0])
 
 
 def bit_prob(qbit: ndarray):
@@ -87,9 +102,9 @@ def prob(state: ndarray):
     print(state)
 
     return (
-        1
-        / math.sqrt(state[0] * state[0] + state[1] * state[1])
-        * (state[0] * states.ZZ + state[1] * states.ZO)
+            1
+            / math.sqrt(state[0] * state[0] + state[1] * state[1])
+            * (state[0] * states.ZZ + state[1] * states.ZO)
     )
 
 
@@ -109,40 +124,10 @@ def main():
     """
     main
     """
-    print(apply(transformations.HADAMARD, transformations.HADAMARD))
 
-    x = np.array([1, 0])
-    y = np.array([1, 0])
-
-    print(tensor_product(x, y))
-    print(tensor_product(transformations.HADAMARD, transformations.HADAMARD))
-
-    bit = np.array([1, 0])
-    print(bit)
-    print(apply(transformations.PAULI_I, bit))
-    print(apply(transformations.PAULI_X, bit))
-    print(apply(transformations.PAULI_Y, bit))
-    print(apply(transformations.PAULI_Z, bit))
-    print(apply(transformations.HADAMARD, bit))
-
-    print(calc_angle_to_zero(np.array([2, 2])) / (2 * math.pi) * 360)
-    print(length(np.array([1, 1, 1])))
-
-    print(calc_angle_to_zero(np.array([1, 0])) / (2 * math.pi) * 360)
-    print(bit_prob(np.array([1, 0])))
-    print(bit_prob(np.array([1, 1])))
-    print(bit_prob(states.PLUS))
-    print(bit_prob(states.MINUS))
-    print(bit_prob(states.MINUS))
-
-    print(prob_first_digit_zero(tensor_product(states.PLUS, states.PLUS)))
-    print(prob_first_digit_zero(states.BELL))
-
-    print(tensor_product(states.PLUS, states.PLUS))
-    print(tensor_product(states.MINUS, states.MINUS))
-
-    print(tensor_product([1, 1], [1, -1]))
-    print(tensor_product([1, -1], [1, 1]))
+    print(is_valid(states.PLUS))
+    print(length(states.PLUS))
+    print(states.PLUS.size)
 
 
 if __name__ == "__main__":

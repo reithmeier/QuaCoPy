@@ -3,9 +3,9 @@ import math
 import numpy as np
 import pytest
 
-import quantum_simulation.constants.states as states
-import quantum_simulation.constants.transformations as transformations
-import quantum_simulation.math as qmath
+from quantum_simulation import math as qmath
+from quantum_simulation.constants import states
+from quantum_simulation.constants import transformations
 
 
 @pytest.mark.parametrize(

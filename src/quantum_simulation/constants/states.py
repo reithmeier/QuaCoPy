@@ -5,7 +5,6 @@ import math
 
 import numpy as np
 
-
 Z = ZERO = np.array([1, 0]).reshape((2, 1))
 """
 |0> zero state
@@ -49,6 +48,16 @@ M = MINUS = np.array([1 / math.sqrt(2), -1 / math.sqrt(2)]).reshape((2, 1))
 PP = PLUS_PLUS = 1 / 2 * np.array([1, 1, 1, 1]).reshape((4, 1))
 """
 |++> state
+"""
+
+PM = PLUS_MINUS = 1 / 2 * np.array([1, -1, 1, -1]).reshape((4, 1))
+"""
+|+-> state
+"""
+
+MP = MINUS_PLUS = 1 / 2 * np.array([-1, 1, -1, 1]).reshape((4, 1))
+"""
+|-+> state
 """
 
 MM = MINUS_MINUS = 1 / 2 * np.array([1, -1, -1, 1]).reshape((4, 1))

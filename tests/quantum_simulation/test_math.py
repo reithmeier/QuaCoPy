@@ -78,9 +78,9 @@ def test_apply_dim_missmatch_throws():
         (np.array([-1]), np.array([1, -1]), np.array([-1, 1])),
         (np.array([2]), np.array([4]), np.array([8])),
         (
-            np.array([[1, 1], [-1, -1]]),
-            np.array([1, -1]),
-            np.array([[1, -1, 1, -1], [-1, 1, -1, 1]]),
+                np.array([[1, 1], [-1, -1]]),
+                np.array([1, -1]),
+                np.array([[1, -1, 1, -1], [-1, 1, -1, 1]]),
         ),
     ],
 )
@@ -222,3 +222,18 @@ def test_generate_bell_state():
 
     # then
     assert np.array_equal(bell, states.BELL)
+
+
+def test_generate_plus_minus_state():
+    """H|0> x H|1> = |+> x |-> = |+->"""
+    # given
+    h = transformations.HADAMARD
+    expected = states.PM
+    # when
+    p = qmath.apply(h, states.Z)
+    m = qmath.apply(h, states.O)
+    result = qmath.tensor_product(p, m)
+    # then
+    assert np.allclose(p, states.PLUS)
+    assert np.allclose(m, states.MINUS)
+    assert np.allclose(result, expected)

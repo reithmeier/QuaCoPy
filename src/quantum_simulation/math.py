@@ -113,22 +113,3 @@ def measure_first_digit(state: ndarray):
     """
     prob = prob_first_digit_zero(state)
     return np.array(random.choices([states.ZERO, states.ONE], [prob, 1 - prob]))[0]
-
-
-def main():
-    """main"""
-    print(measure_qbit(states.ZERO))
-    print(measure_qbit(states.ONE))
-    print(measure_qbit(states.PLUS))
-    print(measure_qbit(states.MINUS))
-
-    print(measure_first_digit(states.ZZ))
-    print(measure_first_digit(states.OO))
-    print(measure_first_digit(states.PP))
-    print(measure_first_digit(states.PM))
-    print(measure_first_digit(states.MP))
-    print(measure_first_digit(states.MM))
-
-
-if __name__ == "__main__":
-    main()

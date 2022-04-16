@@ -78,9 +78,9 @@ def test_apply_dim_missmatch_throws():
         (np.array([-1]), np.array([1, -1]), np.array([-1, 1])),
         (np.array([2]), np.array([4]), np.array([8])),
         (
-                np.array([[1, 1], [-1, -1]]),
-                np.array([1, -1]),
-                np.array([[1, -1, 1, -1], [-1, 1, -1, 1]]),
+            np.array([[1, 1], [-1, -1]]),
+            np.array([1, -1]),
+            np.array([[1, -1, 1, -1], [-1, 1, -1, 1]]),
         ),
     ],
 )
@@ -205,6 +205,68 @@ def test_prob_first_digit_zero(state, expected):
     result = qmath.prob_first_digit_zero(state)
     # then
     assert math.isclose(result, expected)
+
+
+@pytest.mark.parametrize(
+    "qbit, expected",
+    [(states.Z, states.Z), (states.O, states.O)],
+)
+def test_measure_qbit(qbit, expected):
+    """valid inputs"""
+    # given
+    # when
+    result = qmath.measure_qbit(qbit)
+    # then
+    assert np.allclose(result, expected)
+
+
+@pytest.mark.parametrize(
+    "qbit",
+    [states.P, states.M],
+)
+def test_measure_qbit_fifty_fifty_works(qbit):
+    """inputs with 50/50 chance of |0> or |1>"""
+    # given
+    # when
+    result = qmath.measure_qbit(qbit)
+    # then
+    assert np.allclose(result, states.Z) or np.allclose(result, states.O)
+
+
+@pytest.mark.parametrize(
+    "qbit, expected",
+    [
+        (states.ZZ, states.Z),
+        (states.OO, states.O),
+        (states.ZO, states.Z),
+        (states.OZ, states.O),
+    ],
+)
+def test_measure_first_digit(qbit, expected):
+    """valid inputs"""
+    # given
+    # when
+    result = qmath.measure_first_digit(qbit)
+    # then
+    assert np.allclose(result, expected)
+
+
+@pytest.mark.parametrize(
+    "qbit",
+    [
+        states.PP,
+        states.PM,
+        states.MP,
+        states.MM,
+    ],
+)
+def test_measure_first_digit_fifty_fifty_works(qbit):
+    """inputs with 50/50 chance of |0> or |1>"""
+    # given
+    # when
+    result = qmath.measure_first_digit(qbit)
+    # then
+    assert np.allclose(result, states.Z) or np.allclose(result, states.O)
 
 
 def test_generate_bell_state():

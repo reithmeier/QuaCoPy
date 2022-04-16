@@ -1,3 +1,6 @@
+"""
+math tests
+"""
 import math
 
 import numpy as np
@@ -22,6 +25,7 @@ from quantum_simulation.constants import transformations
     ],
 )
 def test_apply(a, b, expected):
+    """apply a transformation to a state"""
     # given
 
     # when
@@ -32,6 +36,7 @@ def test_apply(a, b, expected):
 
 
 def test_apply_switched_throws():
+    """switch the order leads to a dimension mismatch"""
     # given
     h = transformations.HADAMARD
     z = states.ZERO
@@ -43,6 +48,7 @@ def test_apply_switched_throws():
 
 
 def test_apply_empty_throws():
+    """empty input throws exception"""
     # given
     h = []
     o = states.OO
@@ -54,6 +60,7 @@ def test_apply_empty_throws():
 
 
 def test_apply_dim_missmatch_throws():
+    """dimension mismatch"""
     # given
     h = [1]
     o = states.OO
@@ -78,6 +85,7 @@ def test_apply_dim_missmatch_throws():
     ],
 )
 def test_tensor_product(a, b, expected):
+    """tensor product with valid inputs"""
     # given
 
     # when
@@ -88,6 +96,7 @@ def test_tensor_product(a, b, expected):
 
 
 def test_tensor_product_wrong_type():
+    """type mismatch leads to auto convert"""
     # given
     a = 7
     b = np.array([8])
@@ -100,6 +109,7 @@ def test_tensor_product_wrong_type():
 
 
 def test_tensor_product_empty():
+    """empty inputs throw"""
     # given
     a = np.array([])
     b = np.array([])
@@ -124,6 +134,7 @@ def test_tensor_product_empty():
     ],
 )
 def test_length(state, expected):
+    """length with valid inputs"""
     # given
     # when
     result = qmath.length(state)
@@ -141,6 +152,7 @@ def test_length(state, expected):
     ],
 )
 def test_calc_angle_to_zero(qbit, expected):
+    """valid inputs"""
     # given
     # when
     result = qmath.calc_angle_to_zero(qbit)
@@ -149,18 +161,19 @@ def test_calc_angle_to_zero(qbit, expected):
 
 
 @pytest.mark.parametrize(
-    "qbit,expected",
+    "qbit",
     [
-        (np.array([1, 0, 0]), 0 / 180 * math.pi),
-        (np.array([0, 1, 0]), 90 / 180 * math.pi),
-        (np.array([0, 0, 1]), 90 / 180 * math.pi),
-        (np.array([0]), 90 / 180 * math.pi),
-        (np.array([0]), 90 / 180 * math.pi),
-        (np.array([0]), 90 / 180 * math.pi),
-        (np.array([0]), 90 / 180 * math.pi),
+        (np.array([1, 0, 0])),
+        (np.array([0, 1, 0])),
+        (np.array([0, 0, 1])),
+        (np.array([0])),
+        (np.array([0])),
+        (np.array([0])),
+        (np.array([0])),
     ],
 )
-def test_calc_angle_to_zero_raises(qbit, expected):
+def test_calc_angle_to_zero_raises(qbit):
+    """invalid input qbit"""
     # given
     # when
     # then
@@ -172,7 +185,8 @@ def test_calc_angle_to_zero_raises(qbit, expected):
     "qbit,expected",
     [(states.PLUS, 0.5), (states.MINUS, 0.5), (states.ONE, 0.0), (states.ZERO, 1.0)],
 )
-def test_calc_angle_to_zero(qbit, expected):
+def test_prob_qbit_zero(qbit, expected):
+    """valid inputs"""
     # given
     # when
     result = qmath.prob_qbit_zero(qbit)
@@ -185,6 +199,7 @@ def test_calc_angle_to_zero(qbit, expected):
     [(states.PP, 0.5), (states.MM, 0.5), (states.OO, 0.0), (states.ZZ, 1.0)],
 )
 def test_prob_first_digit_zero(state, expected):
+    """valid inputs"""
     # given
     # when
     result = qmath.prob_first_digit_zero(state)
@@ -193,6 +208,7 @@ def test_prob_first_digit_zero(state, expected):
 
 
 def test_generate_bell_state():
+    """generate bell state with hadamard and cnot"""
     # given
     h = transformations.HADAMARD
     z = states.ZERO

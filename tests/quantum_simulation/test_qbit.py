@@ -1,3 +1,6 @@
+"""
+qbit tests
+"""
 import math
 
 import pytest
@@ -35,6 +38,7 @@ from quantum_simulation import QBit
     ],
 )
 def test_init_no_throw(zero_state, one_state, expected):
+    """valid inputs"""
     # given
     # when
     result = QBit(zero_state, one_state)
@@ -47,6 +51,7 @@ def test_init_no_throw(zero_state, one_state, expected):
     [(1, 1), (0, 0), (-1, -1), (0.5, 0.5)],
 )
 def test_init_throw(zero_state, one_state):
+    """invalid input qbit"""
     # given
     # when
     # then

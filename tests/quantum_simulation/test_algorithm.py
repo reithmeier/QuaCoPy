@@ -1,6 +1,7 @@
 """
 algorithm tests
 """
+import string
 
 import numpy as np
 import pytest
@@ -70,10 +71,52 @@ from quantum_simulation.constants import transformations
         (transformations.CNOT, "balanced"),
     ],
 )
-def test_deutsch_algorithm(unknown_function, expected):
+def test_deutsch_algorithm(unknown_function: np.ndarray, expected: string):
     """test valid inputs"""
     # given
     # when
     result = algorithm.deutsch_algorithm(unknown_function)
     # then
     assert result == expected
+
+
+@pytest.mark.parametrize(
+    "unknown_function",
+    [
+        np.array(
+            [
+                [1],
+            ]
+        ),
+        np.array(
+            [
+                [1, 0, 0],
+                [0, 1, 0],
+                [0, 0, 1],
+            ]
+        ),
+        np.array(
+            [
+                [1, 0],
+                [0, 1],
+            ]
+        ),
+        np.array(
+            [
+                [0, 0, 0, 0, 1],
+                [0, 0, 0, 1, 0],
+                [0, 0, 1, 0, 0],
+                [0, 1, 0, 0, 0],
+                [1, 0, 0, 0, 0],
+            ]
+        ),
+        np.array([]),
+    ],
+)
+def test_deutsch_algorithm_throws(unknown_function: np.ndarray):
+    """test invalid inputs"""
+    # given
+    # when
+    # then
+    with pytest.raises(ValueError):
+        algorithm.deutsch_algorithm(unknown_function)

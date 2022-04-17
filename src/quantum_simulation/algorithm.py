@@ -19,7 +19,7 @@ def deutsch_algorithm(unknown_function: np.ndarray):
     a -> c
     b -> d
 
-    Deutsch Algorithm in toffoli gate notation:
+    Deutsch Algorithm in logic gate notation:
 
     |0> ---- H ---- |''''| ---- H ---- measure
                     | Uf |

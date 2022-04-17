@@ -7,4 +7,31 @@
 
 ## Description
 
-Simulates Quantum Computing in Python
+Simulate quantum computing using python. 
+This project currently supports single QBits and two QBit registers.
+Note that measurements are only simulated and there is currently no support for quantum simulators.
+
+## Dependencies
+
+* python
+* pip
+
+## Usage
+
+Install Requirements
+
+````shell
+pip install -r requirements.txt
+````
+
+Install Project
+
+````shell
+pip install -e .
+````
+
+Start tox
+
+````shell
+tox
+````
